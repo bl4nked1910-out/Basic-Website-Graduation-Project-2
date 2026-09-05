@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hafiz Rayyan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.hdqwalls.com/download/windows-files-day-fw-1366x768.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #001aff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1d04ff;
+            color: #ffffff;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        nav {
+            background: #0080ff;
+            color: #ffffff;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            cursor: pointer;
+        }
+        nav a:hover, nav a.active {
+            background: #35424a;
+            border-radius: 4px;
+        }
+
+        /* Single-page section switching logic */
+        .page {
+            display: none;
+            max-width: 800px;
+            margin: 2rem auto 5rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* Gallery Grid Layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .gallery-item {
+            background: #f0f4f8;
+            border: 1px solid #ccd9e8;
+            border-radius: 6px;
+            overflow: hidden;
+            text-align: center;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        /* Gallery Image Styling */
+        .gallery-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Gallery link properties styling */
+        .gallery-item a {
+            color: #001aff;
+            text-decoration: none;
+            display: block;
+            padding: 0.75rem;
+        }
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .gallery-item a:hover {
+            color: #1d04ff;
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #35424a;
+            color: #ffffff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome To My Portfolio</h1>
+        <p>A simple and clean HTML template</p>
+    </header>
+
+    <nav>
+        <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
+        <a id="nav-about" onclick="switchPage('about')">About</a>
+        <a id="nav-gallery" onclick="switchPage('gallery')">Gallery</a>
+    </nav>
+
+    <!-- Page 1: Home -->
+    <div id="home" class="page active">
+        <h2>Welcome to My Portfolio Website</h2>
+        <p>Hello! My name is Hafiz Rayyan. Explore this interactive single-page template to learn more about me, my skills, and my favorite photos.</p>
+        
+        <h3>Quick Overview</h3>
+        <ul>
+            <li>Passionate individual living in Senawang</li>
+            <li>Active participant in sports and leadership roles</li>
+            <li>Constantly learning web development</li>
+        </ul>
+    </div>
+
+    <!-- Page 2: About -->
+    <div id="about" class="page">
+        <h2>About This Page</h2>
+        <p>I love my family very much. My family is small but very happy. There are three members in my family: my father, my mother, and me. We live in a peaceful neighborhood in Senawang.</p>
+        
+        <h3>Key Features & Skills</h3>
+        <ul>
+            <li>I Can Play Chess and Badminton</li>
+            <li>I Can Control The Scouts</li>
+            <li>I Can Help With Whatever Comes Up</li>
+        </ul>
+    </div>
+
+    <!-- Page 3: Gallery with Image Links Added -->
+    <div id="gallery" class="page">
+        <h2>My Gallery</h2>
+        <p>Here are pictures showcasing some of my favorite moments, activities, and hobbies. Click any item to view details.</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://media.post.rvohealth.io/wp-content/uploads/2020/09/Three-African-American-men-playing-chess-732x549-thumbnail.jpg" alt="Chess Game">
+                <a href="#chess" onclick="alert('Opening Chess Game Setup details!');">Chess Game Setup</a>
+            </div>
+            <div class="gallery-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Lee_Chong_Wei_in_the_2012_Summer_Olympics_%283to4_portrait%29.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original" alt="Badminton Court">
+                <a href="#badminton" onclick="alert('Opening Badminton Court details!');">Badminton Court</a>
+            </div>
+            <div class="gallery-item">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisM5uHNGKC5yOzfSORQv6tIT9FbvDTsXwKIaHKIPx80bB4txIUIBnKPiqsMuWmwWBCLWuWoRrUY0o_pvEtzCYai1Wo0cEkwci3yPoJHw3TUoYTPs0ERcPiAV6lukT8Bvsf8LCK/s1600/DSC_0049-778286.JPG" alt="Scouts Activity">
+                <a href="#scouts" onclick="alert('Opening Scouts Activity details!');">Scouts Activity</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 My Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Remove active style from nav links
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Show target page and highlight corresponding nav item
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('nav-' + pageId).classList.add('active');
+
+            // Reset scroll position to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+</html>
