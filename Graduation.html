@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations & Student Showcase</title>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2d3436;
+            min-height: 100vh;
+        }
+
+        /* Fullscreen Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            z-index: 9999;
+            text-align: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px;
+        }
+
+        .splash-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+
+        .splash-subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .enter-btn {
+            background-color: #ffffff;
+            color: #4158D0;
+            border: none;
+            padding: 16px 42px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            background-color: #f1f1f1;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4158D0;
+        }
+
+        .replay-btn {
+            background-color: #f0f3ff;
+            color: #4158D0;
+            border: 1px solid #4158D0;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .replay-btn:hover {
+            background-color: #4158D0;
+            color: #ffffff;
+        }
+
+        /* Gallery Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #636e72;
+        }
+
+        /* Responsive Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .student-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        /* Banner Container with Image Frame */
+        .card-banner {
+            height: 180px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Student Photo Styles */
+        .student-photo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background-color: #ffffff;
+        }
+
+        .card-body {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .student-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .project-link {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background-color: #4158D0;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .project-link:hover {
+            background-color: #2f42a6;
+        }
+
+        @media (max-width: 600px) {
+            .splash-title {
+                font-size: 2.4rem;
+            }
+            .splash-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <h1 class="splash-title">🎉 CONGRATULATIONS! 🎉</h1>
+            <p class="splash-subtitle">Great job on Graduating! Click below to view the gallery.</p>
+            <button class="enter-btn" id="enter-btn">Student Website Artwork →</button>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">Student Website Artwork</div>
+        <button class="replay-btn" id="replay-btn">Replay Celebration 🎆</button>
+    </header>
+
+    <!-- Gallery Page Container -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Student Final Project</h1>
+            <p>Explore the web design projects created by our talented students using HTML and CSS.</p>
+        </div>
+
+        <div class="grid">
+            <!-- Ding Hin -->
+            <div class="student-card">
+                <div class="card-banner">
+                    <img src="https://lh3.googleusercontent.com/d/1WNvslWSEgbsOqf7jZIdSTWwz-vs45U-O" alt="Ding Hin" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Ding Hin</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/dinghin3.html" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Kingmond -->
+            <div class="student-card">
+                <div class="card-banner" style="background: linear-gradient(135deg, #ff758c, #ff7eb3);">
+                    <img src="https://lh3.googleusercontent.com/d/1wM-SPN-rdA4WsH-1xvjmPM4my4rcObbR" alt="Kingmond" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Kingmond</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/Kingmond.html" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Hafiz -->
+            <div class="student-card">
+                <div class="card-banner" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                    <img src="https://lh3.googleusercontent.com/d/1_BaBGe4nQKSA7SDGto11qrV_xVSHrd_L" alt="Hafiz" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Hafiz</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/hafiz%20portfolio.html" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Jayvant -->
+            <div class="student-card">
+                <div class="card-banner" style="background: linear-gradient(135deg, #f83600, #fe8c00);">
+                    <img src="https://lh3.googleusercontent.com/d/1vHjNJHJXDwia9GHJrGCpQygbPp9h-zQS" alt="Jayvant" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Jayvant</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/jayvant%20portfolio.html#about" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Kashveen -->
+            <div class="student-card">
+                <div class="card-banner" style="background: linear-gradient(135deg, #a8c0ff, #3f2b96);">
+                    <img src="https://lh3.googleusercontent.com/d/1WalFZn8SN8W4NOvMfcEWp9GfRNeyE1Ra" alt="Kashveen" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Kashveen</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/Kash2.html#gallery" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Mikail -->
+            <div class="student-card">
+                <div class="card-banner" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <img src="https://lh3.googleusercontent.com/d/1Us65IQrZOLGxIN3Frdz1swvzqKQe771v" alt="Mikail" class="student-photo">
+                </div>
+                <div class="card-body">
+                    <h3 class="student-name">Mikail</h3>
+                    <a href="https://bl4nked1910-out.github.io/Basic-Website-Graduation-Project-2/mikail.2.html" target="_blank" class="project-link">View Project →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Confetti Blast Sequence
+        function triggerConfettiBurst() {
+            confetti({
+                particleCount: 80,
+                spread: 80,
+                origin: { y: 0.6, x: 0.2 }
+            });
+
+            confetti({
+                particleCount: 80,
+                spread: 80,
+                origin: { y: 0.6, x: 0.8 }
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 60,
+                    spread: 100,
+                    origin: { y: 0.5, x: 0.5 }
+                });
+            }, 300);
+        }
+
+        // Trigger confetti when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            triggerConfettiBurst();
+        });
+
+        const splashScreen = document.getElementById('splash-screen');
+        const enterBtn = document.getElementById('enter-btn');
+        const replayBtn = document.getElementById('replay-btn');
+
+        // Transition to Student Showcase Page + Confetti Blast
+        enterBtn.addEventListener('click', () => {
+            splashScreen.classList.add('hidden');
+            triggerConfettiBurst();
+        });
+
+        // Replay Celebration
+        replayBtn.addEventListener('click', () => {
+            splashScreen.classList.remove('hidden');
+            triggerConfettiBurst();
+        });
+    </script>
+</body>
+</html>
